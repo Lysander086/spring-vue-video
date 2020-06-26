@@ -5,7 +5,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>eureka</module>
-    </modules>
+		<module>system</module>
+	</modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -142,6 +143,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+				</configuration>
 			</plugin>
 
 			<!-- mybatis generator 自动生成代码插件 -->
