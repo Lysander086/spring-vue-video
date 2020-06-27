@@ -16,9 +16,9 @@
         <plugin type="com.softwareloop.mybatis.generator.plugins.LombokPlugin">
 
             <!-- enable annotations -->
-            <property name="builder" value="true"/>
+            <property name="builder" value="false"/>
             <!-- annotation's option(boolean) -->
-            <property name="builder.fluent" value="true"/>
+            <property name="builder.fluent" value="false"/>
             <!-- annotation's option(String) -->
             <property name="builder.builderMethodName" value="myBuilder"/>
 
@@ -60,6 +60,8 @@
                              type="XMLMAPPER"/>
 
 
-        <table tableName="test" domainObjectName="Test"/>
+<!--        <table tableName="test" domainObjectName="Test"/>-->
+        <table tableName="chapter" domainObjectName="Chapter"/>
+
     </context>
 </generatorConfiguration>
