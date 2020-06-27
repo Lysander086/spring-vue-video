@@ -10,6 +10,8 @@
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
 
+        <!--覆盖生成XML文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
         <!--  使用带有lombok的生成器  -->
         <plugin type="com.softwareloop.mybatis.generator.plugins.LombokPlugin">
 

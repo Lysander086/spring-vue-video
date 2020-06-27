@@ -15,9 +15,9 @@ public class TestService {
     private TestMapper testMapper;
 
 //    for test
-//    public List<Test> list() {
-//        return testMapper.list();
-//    }
+    public List<Test> list() {
+        return testMapper.selectByExample(null);
+    }
 
 
 }

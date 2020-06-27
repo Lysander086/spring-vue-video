@@ -20,11 +20,9 @@ public class TestController {
         return "hi world";
     }
 
-//    for test
-//    @RequestMapping("/list")
-//    public List<Test> list() {
-//        System.out.println("point here");
-//        return testService.list();
-//    }
+    @RequestMapping("/list")
+    public List<Test> list() {
+        return testService.list();
+    }
 
 }
