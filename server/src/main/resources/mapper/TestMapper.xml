@@ -4,7 +4,11 @@
 <mapper namespace="com.example.server.mapper.TestMapper">
 
     <select id="list" resultType="com.example.server.domain.Test">
-        select * from `test`
+        select t.id, t.name from `test` t
+    </select>
+
+    <select id="list2" resultType="com.example.server.domain.Test">
+        select id , name from `test`
     </select>
 
 </mapper>
