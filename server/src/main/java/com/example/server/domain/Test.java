@@ -1,11 +1,12 @@
 package com.example.server.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
+@Builder
 public class Test {
-    private String id ;
+    private String id;
+
     private String name;
 }

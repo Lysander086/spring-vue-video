@@ -89,8 +89,23 @@
                 <version>3.4</version>
             </dependency>
 
+            <!-- https://mvnrepository.com/artifact/com.softwareloop/mybatis-generator-lombok-plugin -->
+            <dependency>
+                <groupId>com.softwareloop</groupId>
+                <artifactId>mybatis-generator-lombok-plugin</artifactId>
+                <version>1.0</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
+
+<!--    <dependencies>-->
+<!--        <dependency>-->
+<!--            <groupId>com.softwareloop</groupId>-->
+<!--            <artifactId>mybatis-generator-lombok-plugin</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
+<!--    </dependencies>-->
 
     <build>
         <plugins>
@@ -107,7 +122,6 @@
                 <configuration>
                     <configurationFile>src/main/resources/generator/generatorConfig.xml</configurationFile>
                     <overwrite>true</overwrite>
-                    <verbose>true</verbose>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -115,8 +129,17 @@
                         <artifactId>mysql-connector-java</artifactId>
                         <version>8.0.18</version>
                     </dependency>
+                    <!-- https://mvnrepository.com/artifact/com.softwareloop/mybatis-generator-lombok-plugin -->
+                    <dependency>
+                        <groupId>com.softwareloop</groupId>
+                        <artifactId>mybatis-generator-lombok-plugin</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+
                 </dependencies>
             </plugin>
+
+
         </plugins>
     </build>
 
