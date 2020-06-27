@@ -1,5 +1,6 @@
 package com.example.system;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +13,8 @@ import org.springframework.core.env.Environment;
 
 /* for Error starting ApplicationContext.  */
 @EnableEurekaClient
-@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
+@SpringBootApplication
+@MapperScan("com.example.system.mapper")
 public class SystemApplication {
 
     private static final Logger LOG =  LoggerFactory.getLogger(SystemApplication.class);

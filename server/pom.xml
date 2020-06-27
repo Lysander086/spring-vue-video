@@ -9,15 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>system</artifactId>
+    <artifactId>server</artifactId>
 
     <dependencies>
-        <!--        新增system需要作为  eureka的客户端  -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -46,5 +40,6 @@
         </dependency>
 
     </dependencies>
+
 
 </project>
