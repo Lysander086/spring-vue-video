@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="navbar" class="navbar navbar-default          ace-save-state">
+    <div id="navbar" class="navbar navbar-default ace-save-state">
       <div class="navbar-container ace-save-state" id="navbar-container">
         <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
           <span class="sr-only">Toggle sidebar</span>
@@ -185,7 +185,8 @@
                   <ul class="dropdown-menu dropdown-navbar">
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar.png" class="msg-photo"
+                             alt="Alex's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -202,7 +203,8 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar3.png" class="msg-photo"
+                             alt="Susan's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -219,7 +221,8 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar4.png" class="msg-photo"
+                             alt="Bob's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -236,7 +239,8 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar2.png" class="msg-photo"
+                             alt="Kate's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -253,7 +257,8 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar5.png" class="msg-photo"
+                             alt="Fred's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -281,7 +286,7 @@
 
             <li class="light-blue dropdown-modal">
               <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo" />
+                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo"/>
                 <span class="user-info">
 									<small>Welcome,</small>
 									Jason
@@ -355,15 +360,15 @@
         </div><!-- /.sidebar-shortcuts -->
 
         <ul class="nav nav-list">
-          <li class="">
-            <a href="index.html">
+          <li class= "" id="welcome-sidebar">
+            <router-link to="/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
               <span class="menu-text"> 欢迎 </span>
-            </a>
+            </router-link>
             <b class="arrow"></b>
           </li>
 
-          <li class="active open">
+          <li class="">
             <a href="#" class="dropdown-toggle">
               <i class="menu-icon fa fa-list"></i>
               <span class="menu-text"> 系统管理 </span>
@@ -394,10 +399,36 @@
             <b class="arrow"></b>
 
           </li>
+
+          <li class="active open">
+            <a href="#" class="dropdown-toggle">
+              <i class="menu-icon fa fa-list"></i>
+              <span class="menu-text"> 业务管理 </span>
+              <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+              <li class="active" id="business-chapter-sidebar">
+                <router-link to="/business/chapter">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  大章管理
+                </router-link>
+
+                <b class="arrow"></b>
+              </li>
+
+            </ul>
+            <b class="arrow"></b>
+
+          </li>
+
         </ul><!-- /.nav-list -->
 
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-          <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+          <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
+             data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
         </div>
       </div>
 
@@ -409,7 +440,7 @@
             <div class="row">
               <div class="col-xs-12">
                 <!-- PAGE  BEGINS -->
-                <router-view />
+                <router-view/>
                 <!-- PAGE CONTENT ENDS -->
               </div><!-- /.col -->
             </div><!-- /.row -->
@@ -458,6 +489,24 @@
     mounted() {
       $('body').removeClass('login-layout light-login');
       $('body').attr('class', 'no-skin');
+    },
+    methods: {
+      /**
+       * 菜单激活样式
+       */
+      // 针对二级菜单
+      activeSidebar(id) {
+        $('#' + id).siblings().removeClass("active");
+        $('#' + id).siblings().find('li').removeClass('active');
+        $('#' + id).addClass('active');
+
+        // 如果有父菜单, 父菜单的兄弟菜单去掉 open active , 父菜单增加open active
+        let parentLi = $('#' + id).parents('li');
+        if (parentLi) {
+          parentLi.siblings().removeClass("open active");
+          parentLi.addClass("open active");
+        }
+      }
     }
   }
 </script>
