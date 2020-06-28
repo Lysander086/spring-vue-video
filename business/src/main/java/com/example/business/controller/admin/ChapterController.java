@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-//尽量与包名一直
+//尽量与包名一致
 @RequestMapping("/admin/chapter")
 public class ChapterController {
 
