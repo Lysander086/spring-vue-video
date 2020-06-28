@@ -487,8 +487,25 @@
   export default {
     name: "admin",
     mounted() {
+      let _this = this;
       $('body').removeClass('login-layout light-login');
       $('body').attr('class', 'no-skin');
+      // conosole.log("admin")
+      // sidebar激活样式方法二
+      _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar")
+
+    },
+    watch:{
+      $route:{
+        handler(val, oldVal){
+          console.log("--> 页面跳转", val, oldVal);
+          let _this = this;
+          _this.$nextTick(function () {
+            // sidebar激活样式方法二
+            _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar")
+          })
+        }
+      }
     },
     methods: {
       /**

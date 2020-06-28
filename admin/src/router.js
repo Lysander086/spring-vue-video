@@ -28,10 +28,12 @@ export default new Router({
       component: Admin,
       children: [{
         path: 'welcome',
+        name: 'welcome',
         component: Welcome,
       }, {
-        path: 'business/chapter'
-        , component: Chapter,
+        path: 'business/chapter',
+        name: 'business/chapter',
+        component: Chapter,
       }]
     }]
 })

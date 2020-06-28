@@ -10,14 +10,14 @@ import java.util.List;
 
 @RestController
 //尽量与包名一直
-@RequestMapping("/admin")
+@RequestMapping("/admin/chapter")
 public class ChapterController {
 
     @Resource
     private ChapterService chapterService;
 
 
-    @RequestMapping("/chapter")
+    @RequestMapping("/list")
     public List<ChapterDto> list() {
         return chapterService.list();
     }
