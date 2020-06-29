@@ -66,11 +66,6 @@
                 <version>1.18.12</version>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.60</version>
-            </dependency>
 
             <!-- 模板引擎freemarker -->
             <dependency>
@@ -86,24 +81,6 @@
                 <version>2.1.1</version>
             </dependency>
 
-            <!-- 阿里云oss -->
-            <dependency>
-                <groupId>com.aliyun.oss</groupId>
-                <artifactId>aliyun-sdk-oss</artifactId>
-                <version>3.8.0</version>
-            </dependency>
-
-            <!-- 阿里云vod -->
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-core</artifactId>
-                <version>4.3.3</version>
-            </dependency>
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-vod</artifactId>
-                <version>2.15.8</version>
-            </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -115,19 +92,6 @@
                 <groupId>com.softwareloop</groupId>
                 <artifactId>mybatis-generator-lombok-plugin</artifactId>
                 <version>1.0</version>
-            </dependency>
-
-            <!-- 图形验证码 -->
-            <dependency>
-                <groupId>com.github.penggle</groupId>
-                <artifactId>kaptcha</artifactId>
-                <version>2.3.2</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.60</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
