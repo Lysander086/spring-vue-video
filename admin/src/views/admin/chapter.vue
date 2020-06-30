@@ -118,7 +118,7 @@
 
       del(id) {
         let _this = this;
-        Toast.warning("删除操作中")
+        myToast.warning("删除操作中")
         Confirm.show("删除大章后不可恢复", function () {
           Loading.show();
           _this.$ajax.delete('http://localhost:9000/business/admin/chapter/delete/' + id)
@@ -129,7 +129,7 @@
                 if (resp.success) {
                   $('#form-modal').modal("hide");
                   _this.list(1);
-                  Toast.success("删除成功")
+                  myToast.success("删除成功")
                 }
               });
         });
@@ -160,7 +160,7 @@
               if (resp.success) {
                 $("#form-modal").modal("hide");
                 _this.list(1);
-                Toast.success("保存成功");
+                myToast.success("保存成功");
               }
             })
       }
