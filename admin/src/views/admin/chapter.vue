@@ -115,47 +115,41 @@
         $("#form-modal").modal("show");
 
       },
-      
+
       save(page) {
         let _this = this;
-
         // 保存校验
-        // if (!Validator.require(_this.chapter.name, "名称")
-        //     || !Validator.require(_this.chapter.courseId, "课程ID")
-        //     || !Validator.length(_this.chapter.courseId, "课程ID", 1, 8)
-        // ) {
-        //   return;
-        // }
+        if (!Validator.require(_this.chapter.name, "名称")
+            || !Validator.require(_this.chapter.courseId, "课程ID")
+            || !Validator.length(_this.chapter.courseId, "课程ID", 1, 8))
+          return;
         Loading.show();
         _this.$ajax.post('http://localhost:9000/business/admin/chapter/save', _this.chapter)
             .then((response) => {
               Loading.hide();
-              console.log('保存大章列表结果: ', response);
               let resp = response.data;
               if (resp.success) {
                 $("#form-modal").modal("hide");
                 _this.list(1);
-                myToast.success("保存成功");
-              }else {
-                myToast.warning(resp.message)
+                Toast.success("保存成功");
+              } else {
+                Toast.warning(resp.message)
               }
             })
       },
-      
+
       del(id) {
         let _this = this;
-        myToast.warning("删除操作中")
         Confirm.show("删除大章后不可恢复", function () {
           Loading.show();
           _this.$ajax.delete('http://localhost:9000/business/admin/chapter/delete/' + id)
               .then((response) => {
                 Loading.hide();
-                console.log('删除大章列表结果: ', response);
                 let resp = response.data;
                 if (resp.success) {
                   $('#form-modal').modal("hide");
                   _this.list(1);
-                  myToast.success("删除成功")
+                  Toast.success("删除成功")
                 }
               });
         });
@@ -168,7 +162,6 @@
             {page: page, size: _this.$refs.pagination.size})
             .then((response) => {
               Loading.hide();
-              console.log('查询大章列表结果: ', response);
               let resp = response.data;
               _this.chapters = resp.content.list;
               _this.$refs.pagination.render(page, resp.content.total);

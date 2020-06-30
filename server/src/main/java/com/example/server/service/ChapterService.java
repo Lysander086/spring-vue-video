@@ -33,8 +33,6 @@ public class ChapterService {
         List<ChapterDto> chapterDtoList = new ArrayList<>();
         for (int i = 0, l = chapterList.size(); i < l; i++) {
             Chapter chapter = chapterList.get(i);
-//            ChapterDto chapterDto = new ChapterDto();
-//            BeanUtils.copyProperties(chapter, chapterDto);
             ChapterDto chapterDto = CopyUtil.copy(chapter, ChapterDto.class);
             chapterDtoList.add(chapterDto);
         }
@@ -59,7 +57,7 @@ public class ChapterService {
         chapterMapper.updateByPrimaryKey(chapter);
     }
 
-    public void delete(String id){
+    public void delete(String id) {
         chapterMapper.deleteByPrimaryKey(id);
     }
 }

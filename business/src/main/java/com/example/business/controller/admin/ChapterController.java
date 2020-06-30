@@ -15,15 +15,15 @@ import java.util.List;
 @RestController
 //尽量与包名一致
 @RequestMapping("/admin/chapter")
-@Slf4j
 public class ChapterController {
 
     @Resource
     private ChapterService chapterService;
 
+    private static final String BUSINESS_NAME = "大章";
+
     @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto) {
-        log.info("pageDto : {}", pageDto);
         chapterService.list(pageDto);
         ResponseDto responseDto = new ResponseDto();
         responseDto.setContent(pageDto);
@@ -32,8 +32,6 @@ public class ChapterController {
 
     @PostMapping("/save")
     public ResponseDto save(@RequestBody ChapterDto chapterDto) {
-        log.info("chapterDto : {}", chapterDto);
-
         //        保存校验
         ValidatorUtil.require(chapterDto.getName(), "名称");
         ValidatorUtil.require(chapterDto.getCourseId(), "课程ID");
@@ -47,7 +45,6 @@ public class ChapterController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseDto delete(@PathVariable String id) {
-        log.info("id to delete: {}", id);
         ResponseDto responseDto = new ResponseDto();
         chapterService.delete(id);
         return responseDto;
