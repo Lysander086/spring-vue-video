@@ -39,12 +39,9 @@
 
   <!--[if !IE]> -->
   <script src="<%= BASE_URL %>ace/assets/js/jquery-2.1.4.min.js"></script>
-
   <!-- <![endif]-->
+  <script src="<%= BASE_URL %>ace/assets/js/bootstrap.min.js"></script>
 
-  <!--[if IE]>
-<script src="<%= BASE_URL %>ace/assets/js/jquery-1.11.3.min.js"></script>
-<![endif]-->
   <script type="text/javascript">
     if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
   </script>
@@ -52,7 +49,7 @@
   <!-- page specific plugin scripts -->
 
   <!--[if lte IE 8]>
-  <script src="assets/js/excanvas.min.js"></script>
+  <script src="<%= BASE_URL %>ace/assets/js/excanvas.min.js"></script>
   <![endif]-->
   <script src="<%= BASE_URL %>ace/assets/js/jquery-ui.custom.min.js"></script>
   <script src="<%= BASE_URL %>ace/assets/js/jquery.ui.touch-punch.min.js"></script>
@@ -61,6 +58,8 @@
   <script src="<%= BASE_URL %>ace/assets/js/jquery.flot.min.js"></script>
   <script src="<%= BASE_URL %>ace/assets/js/jquery.flot.pie.min.js"></script>
   <script src="<%= BASE_URL %>ace/assets/js/jquery.flot.resize.min.js"></script>
+
+  
 
   <!-- ace scripts -->
   <script src="<%= BASE_URL %>ace/assets/js/ace-elements.min.js"></script>
