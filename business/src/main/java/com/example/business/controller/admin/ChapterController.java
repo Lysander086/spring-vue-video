@@ -3,7 +3,9 @@ package com.example.business.controller.admin;
 import com.example.server.dto.ChapterDto;
 import com.example.server.dto.PageDto;
 import com.example.server.dto.ResponseDto;
+import com.example.server.exception.ValidatorException;
 import com.example.server.service.ChapterService;
+import com.example.server.util.ValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +33,12 @@ public class ChapterController {
     @PostMapping("/save")
     public ResponseDto save(@RequestBody ChapterDto chapterDto) {
         log.info("chapterDto : {}", chapterDto);
+
+        //        保存校验
+        ValidatorUtil.require(chapterDto.getName(), "名称");
+        ValidatorUtil.require(chapterDto.getCourseId(), "课程ID");
+        ValidatorUtil.length(chapterDto.getCourseId(), "课程ID", 1, 8);
+
         chapterService.save(chapterDto);
         ResponseDto responseDto = new ResponseDto();
         responseDto.setContent(chapterDto);

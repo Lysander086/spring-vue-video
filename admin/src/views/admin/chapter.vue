@@ -115,7 +115,33 @@
         $("#form-modal").modal("show");
 
       },
+      
+      save(page) {
+        let _this = this;
 
+        // 保存校验
+        // if (!Validator.require(_this.chapter.name, "名称")
+        //     || !Validator.require(_this.chapter.courseId, "课程ID")
+        //     || !Validator.length(_this.chapter.courseId, "课程ID", 1, 8)
+        // ) {
+        //   return;
+        // }
+        Loading.show();
+        _this.$ajax.post('http://localhost:9000/business/admin/chapter/save', _this.chapter)
+            .then((response) => {
+              Loading.hide();
+              console.log('保存大章列表结果: ', response);
+              let resp = response.data;
+              if (resp.success) {
+                $("#form-modal").modal("hide");
+                _this.list(1);
+                myToast.success("保存成功");
+              }else {
+                myToast.warning(resp.message)
+              }
+            })
+      },
+      
       del(id) {
         let _this = this;
         myToast.warning("删除操作中")
@@ -148,22 +174,6 @@
               _this.$refs.pagination.render(page, resp.content.total);
             })
       },
-
-      save(page) {
-        let _this = this;
-        Loading.show();
-        _this.$ajax.post('http://localhost:9000/business/admin/chapter/save', _this.chapter)
-            .then((response) => {
-              Loading.hide();
-              console.log('保存大章列表结果: ', response);
-              let resp = response.data;
-              if (resp.success) {
-                $("#form-modal").modal("hide");
-                _this.list(1);
-                myToast.success("保存成功");
-              }
-            })
-      }
     }
   }
 </script>

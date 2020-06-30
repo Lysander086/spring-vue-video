@@ -1,8 +1,8 @@
 const Toast = Swal.mixin({
   toast: true,
-  position: 'top-end',
+  position: 'top',
   showConfirmButton: false,
-  timer: 1000,
+  timer: 1500,
   timerProgressBar: true,
   onOpen: (toast) => {
     toast.addEventListener('mouseenter', Swal.stopTimer);
@@ -18,12 +18,14 @@ myToast = {
     });
   },
   error: function (msg) {
+    console.info(Toast)
     Toast.fire({
       icon: 'error',
       title: msg
     });
   },
   warning: function (msg) {
+    console.info(Toast)
     Toast.fire({
       icon: 'warning',
       title: msg
