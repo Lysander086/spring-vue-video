@@ -138,7 +138,7 @@
                       if (resp.success) {
                         $('#form-modal').modal("hide");
                         _this.list(1);
-                        toast.success("删除成功")
+                        myToast.success("删除成功")
                       }
                     });
               }
@@ -170,7 +170,7 @@
               if (resp.success) {
                 $("#form-modal").modal("hide");
                 _this.list(1);
-                toast.success("保存成功");
+                myToast.success("保存成功");
               }
             })
       }

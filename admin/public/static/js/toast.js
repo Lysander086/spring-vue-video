@@ -10,7 +10,7 @@ const Toast = Swal.mixin({
   }
 });
 
-toast = {
+myToast = {
   success: function (msg) {
     Toast.fire({
       icon: 'success',
