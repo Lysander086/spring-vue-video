@@ -12,5 +12,4 @@ public class ChapterDto {
     private String courseId;
 
     private String name;
-
 }
