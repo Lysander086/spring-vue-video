@@ -6,11 +6,13 @@ import com.example.server.domain.ChapterExample;
 import com.example.server.dto.ChapterDto;
 import com.example.server.dto.PageDto;
 import com.example.server.mapper.ChapterMapper;
+import com.example.server.util.CopyUtil;
 import com.example.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -31,17 +33,31 @@ public class ChapterService {
         List<ChapterDto> chapterDtoList = new ArrayList<>();
         for (int i = 0, l = chapterList.size(); i < l; i++) {
             Chapter chapter = chapterList.get(i);
-            ChapterDto chapterDto = new ChapterDto();
-            BeanUtils.copyProperties(chapter, chapterDto);
+//            ChapterDto chapterDto = new ChapterDto();
+//            BeanUtils.copyProperties(chapter, chapterDto);
+            ChapterDto chapterDto = CopyUtil.copy(chapter, ChapterDto.class);
             chapterDtoList.add(chapterDto);
         }
         pageDto.setList(chapterDtoList);
     }
 
     public void save(ChapterDto chapterDto){
-        chapterDto.setId(UuidUtil.getShortUuid());
-        Chapter chapter = new Chapter();
-        BeanUtils.copyProperties(chapterDto, chapter);
+        Chapter chapter = CopyUtil.copy(chapterDto, Chapter.class);
+        if(StringUtils.isEmpty(chapterDto.getId())){
+            this.insert(chapter);
+        }else {
+            this.update(chapter);
+        }
+    }
+
+    private void insert(Chapter chapter){
+        chapter.setId(UuidUtil.getShortUuid());
         chapterMapper.insert(chapter);
     }
+
+    private void update(Chapter chapter){
+        chapterMapper.updateByPrimaryKey(chapter);
+    }
+
+
 }
