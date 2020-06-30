@@ -40,8 +40,6 @@
             <groupId>com.example</groupId>
             <artifactId>server</artifactId>
         </dependency>
-
-
     </dependencies>
 
 </project>
