@@ -41,23 +41,25 @@ public class ChapterService {
         pageDto.setList(chapterDtoList);
     }
 
-    public void save(ChapterDto chapterDto){
+    public void save(ChapterDto chapterDto) {
         Chapter chapter = CopyUtil.copy(chapterDto, Chapter.class);
-        if(StringUtils.isEmpty(chapterDto.getId())){
+        if (StringUtils.isEmpty(chapterDto.getId())) {
             this.insert(chapter);
-        }else {
+        } else {
             this.update(chapter);
         }
     }
 
-    private void insert(Chapter chapter){
+    private void insert(Chapter chapter) {
         chapter.setId(UuidUtil.getShortUuid());
         chapterMapper.insert(chapter);
     }
 
-    private void update(Chapter chapter){
+    private void update(Chapter chapter) {
         chapterMapper.updateByPrimaryKey(chapter);
     }
 
-
+    public void delete(String id){
+        chapterMapper.deleteByPrimaryKey(id);
+    }
 }

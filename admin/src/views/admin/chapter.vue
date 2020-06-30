@@ -31,12 +31,12 @@
         <td>{{chapter.courseId}}</td>
         
         <td>
-<!--      <div class="hidden-sm hidden-xs btn-group">-->
+          <!--      <div class="hidden-sm hidden-xs btn-group">-->
           <div class="btn-group">
             <button @click="edit(chapter)" class="btn btn-xs btn-info">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-            <button class="btn btn-xs btn-danger">
+            <button @click="del(chapter.id)" class="btn btn-xs btn-danger">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
           </div>
@@ -108,21 +108,52 @@
         _this.chapter = {};
         $("#form-modal").modal("show");
       },
-      
-      edit(chapter){
+
+      edit(chapter) {
         let _this = this;
         _this.chapter = $.extend({}, chapter);
         $("#form-modal").modal("show");
 
       },
-      
+
+      del(id) {
+        let _this = this;
+        Loading.show();
+        Swal.fire({
+          title: '确认删除?',
+          text: "操作后不可恢复",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '确认'
+        })
+            .then((result) => {
+              if (result.value) {
+                _this.$ajax.delete('http://localhost:9000/business/admin/chapter/delete/' + id)
+                    .then((response) => {
+                      Loading.hide();
+                      console.log('删除大章列表结果: ', response);
+                      let resp = response.data;
+                      if (resp.success) {
+                        $('#form-modal').modal("hide");
+                        _this.list(1);
+                        toast.success("删除成功")
+                      }
+                    });
+              }
+            });
+      },
+
       list(page) {
         let _this = this;
+        Loading.show();
         _this.$ajax.post('http://localhost:9000/business/admin/chapter/list',
             {page: page, size: _this.$refs.pagination.size})
             .then((response) => {
+              Loading.hide();
               console.log('查询大章列表结果: ', response);
-              let resp =  response.data;
+              let resp = response.data;
               _this.chapters = resp.content.list;
               _this.$refs.pagination.render(page, resp.content.total);
             })
@@ -130,13 +161,16 @@
 
       save(page) {
         let _this = this;
+        Loading.show();
         _this.$ajax.post('http://localhost:9000/business/admin/chapter/save', _this.chapter)
             .then((response) => {
+              Loading.hide();
               console.log('保存大章列表结果: ', response);
-              let resp =  response.data;
-              if(resp.success){
+              let resp = response.data;
+              if (resp.success) {
                 $("#form-modal").modal("hide");
                 _this.list(1);
+                toast.success("保存成功");
               }
             })
       }

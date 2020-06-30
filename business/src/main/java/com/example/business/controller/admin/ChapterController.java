@@ -5,9 +5,7 @@ import com.example.server.dto.PageDto;
 import com.example.server.dto.ResponseDto;
 import com.example.server.service.ChapterService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,22 +19,30 @@ public class ChapterController {
     @Resource
     private ChapterService chapterService;
 
-    @RequestMapping("/list")
+    @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto) {
-        log.info("pageDto : {}" , pageDto);
+        log.info("pageDto : {}", pageDto);
         chapterService.list(pageDto);
         ResponseDto responseDto = new ResponseDto();
         responseDto.setContent(pageDto);
         return responseDto;
     }
-    @RequestMapping("/save")
+
+    @PostMapping("/save")
     public ResponseDto save(@RequestBody ChapterDto chapterDto) {
-        log.info("chapterDto : {}" , chapterDto);
+        log.info("chapterDto : {}", chapterDto);
         chapterService.save(chapterDto);
         ResponseDto responseDto = new ResponseDto();
         responseDto.setContent(chapterDto);
         return responseDto;
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseDto delete(@PathVariable String id) {
+        log.info("id to delete: {}", id);
+        ResponseDto responseDto = new ResponseDto();
+        chapterService.delete(id);
+        return responseDto;
+    }
 
 }
