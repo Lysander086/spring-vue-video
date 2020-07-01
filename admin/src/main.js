@@ -26,3 +26,4 @@ new Vue({
 }).$mount('#app');
 
 console.log("环境: ", process.env.NODE_ENV);
+console.log(process.env.VUE_APP_SERVER)
