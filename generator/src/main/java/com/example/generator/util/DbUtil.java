@@ -87,8 +87,7 @@ public class DbUtil {
                     field.setLength(0);
                 }
                 if (comment.contains("枚举")) {
-                    field.setEnums(true);
-
+                    field.setIsEnums(true);
                     // 以课程等级为例：从注释中的“枚举[CourseLevelEnum]”，得到COURSE_LEVEL
                     int start = comment.indexOf("[");
                     int end = comment.indexOf("]");
@@ -96,7 +95,7 @@ public class DbUtil {
                     String enumsConst = EnumGenerator.toUnderline(enumsName);
                     field.setEnumsConst(enumsConst);
                 } else {
-                    field.setEnums(false);
+                    field.setIsEnums(false);
                 }
                 fieldList.add(field);
             }

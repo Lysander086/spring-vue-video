@@ -289,7 +289,7 @@
                 <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo"/>
                 <span class="user-info">
 									<small>Welcome,</small>
-									Jason
+									Lysander
 								</span>
 
                 <i class="ace-icon fa fa-caret-down"></i>

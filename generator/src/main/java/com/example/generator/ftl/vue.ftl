@@ -18,7 +18,7 @@
       <thead>
       <tr>
         <#list fieldList as field><#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
-        <th>${field.nameCn}</th></#if>
+          <th>${field.nameCn}</th></#if>
         </#list>
         <th>操作</th>
       </tr>
@@ -28,7 +28,7 @@
       <tr v-for="${domain} in ${domain}s">
         <#list fieldList as field>
           <#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
-            <#if field.enums>
+            <#if field.isEnums>
         <td>{{${field.enumsConst} | optionKV(${domain}.${field.nameHump})}}</td>
             <#else>
         <td>{{${domain}.${field.nameHump}}}</td>
@@ -47,8 +47,6 @@
         </td>
       </tr>
       </tbody>
-
-
     </table>
 
     <!-- Modal -->
@@ -58,17 +56,25 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">表单: 添加章节</h4>
+            <h4 class="modal-title" id="myModalLabel">表单: 添加${tableNameCn}</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
               <#list fieldList as field>
+              <#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
               <div class="form-group">
                 <label class="col-sm-2 control-label">${field.nameCn}</label>
                 <div class="col-sm-10">
+                  <#if field.isEnums >
+                  <select v-model="${domain}.${field.nameHump}" class="form-control">
+                    <option v-for="o in ${field.enumsConst}" v-bind:value="o.key">{{o.value}}</option>
+                  </select>
+                    <#else>
                   <input v-model="${domain}.${field.nameHump}" class="form-control" placeholder="${field.nameCn}">
+                  </#if>
                 </div>
               </div>
+              </#if>
               </#list>
             </form>
           </div>
@@ -91,8 +97,13 @@
     name: "${module}-${domain}",
     data: function () {
       return {
-        ${domain}:{},
-        ${domain}s: []
+        ${domain}: {},
+        ${domain}s: [],
+        <#list fieldList as field>
+          <#if field.isEnums>
+        ${field.enumsConst}: ${field.enumsConst},
+          </#if>
+        </#list>
       }
     },
     components: {

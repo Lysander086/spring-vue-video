@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Microsoft YaHei';
+  /*src: url('PingFang.ttf');  */
+  font-weight: normal;
+  font-style: normal;
+}
+
+.myLabel{
+  font-family: "Microsoft YaHei";
+}
