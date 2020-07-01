@@ -1,3 +1,4 @@
+// Generated via dto.ftl
 package com.example.server.dto;
 
 <#list typeSet as type>

@@ -17,43 +17,51 @@
       <thead>
       <tr>
         <th>id</th>
-        <th>标题</th>
-        <th>课程</th>
-        <th>大章</th>
-        <th>视频</th>
+        <th>名称</th>
+        <th>概述</th>
         <th>时长</th>
+        <th>价格（元）</th>
+        <th>封面</th>
+        <th>级别</th>
         <th>收费</th>
+        <th>状态</th>
+        <th>报名数</th>
         <th>顺序</th>
+        
+        
         <th>操作</th>
       </tr>
       </thead>
-
+      
       <tbody>
-      <tr v-for="section in sections">
-        <td>{{section.id}}</td>
-        <td>{{section.title}}</td>
-        <td>{{section.courseId}}</td>
-        <td>{{section.chapterId}}</td>
-        <td>{{section.video}}</td>
-        <td>{{section.time}}</td>
-        <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
-        <td>{{section.sort}}</td>
+      <tr v-for="course in courses">
+        <td>{{course.id}}</td>
+        <td>{{course.name}}</td>
+        <td>{{course.summary}}</td>
+        <td>{{course.time}}</td>
+        <td>{{course.price}}</td>
+        <td>{{course.image}}</td>
+        <td>{{COURSE_LEVEL | optionKV(course.level)}}</td>
+        <td>{{COURSE_CHARGE | optionKV(course.charge)}}</td>
+        <td>{{COURSE_STATUS | optionKV(course.status)}}</td>
+        <td>{{course.enroll}}</td>
+        <td>{{course.sort}}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
-            <button v-on:click="edit(section)" class="btn btn-xs btn-info">
+            <button v-on:click="edit(course)" class="btn btn-xs btn-info">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-            <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">
+            <button v-on:click="del(course.id)" class="btn btn-xs btn-danger">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
           </div>
         </td>
       </tr>
       </tbody>
-
-
+    
+    
     </table>
-
+    
     <!-- Modal -->
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -68,63 +76,85 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">id</label>
                 <div class="col-sm-10">
-                  <input v-model="section.id" class="form-control" placeholder="id">
+                  <input v-model="course.id" class="form-control" placeholder="id">
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label">标题</label>
+                <label class="col-sm-2 control-label">名称</label>
                 <div class="col-sm-10">
-                  <input v-model="section.title" class="form-control" placeholder="标题">
+                  <input v-model="course.name" class="form-control" placeholder="名称">
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label">课程</label>
+                <label class="col-sm-2 control-label">概述</label>
                 <div class="col-sm-10">
-                  <input v-model="section.courseId" class="form-control" placeholder="课程">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">大章</label>
-                <div class="col-sm-10">
-                  <input v-model="section.chapterId" class="form-control" placeholder="大章">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">视频</label>
-                <div class="col-sm-10">
-                  <input v-model="section.video" class="form-control" placeholder="视频">
+                  <input v-model="course.summary" class="form-control" placeholder="概述">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">时长</label>
                 <div class="col-sm-10">
-                  <input v-model="section.time" class="form-control" placeholder="时长">
+                  <input v-model="course.time" class="form-control" placeholder="时长">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">价格（元）</label>
+                <div class="col-sm-10">
+                  <input v-model="course.price" class="form-control" placeholder="价格（元）">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">封面</label>
+                <div class="col-sm-10">
+                  <input v-model="course.image" class="form-control" placeholder="封面">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">级别</label>
+                <div class="col-sm-10">
+                  <select v-model="course.level" class="form-control">
+                    <option v-for="o in COURSE_LEVEL" v-bind:value="o.key">{{o.value}}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">收费</label>
                 <div class="col-sm-10">
-                  <select v-model="section.charge" class="form-control">
-                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{o.value}}</option>
+                  <select v-model="course.charge" class="form-control">
+                    <option v-for="o in COURSE_CHARGE" v-bind:value="o.key">{{o.value}}</option>
                   </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">状态</label>
+                <div class="col-sm-10">
+                  <select v-model="course.status" class="form-control">
+                    <option v-for="o in COURSE_STATUS" v-bind:value="o.key">{{o.value}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">报名数</label>
+                <div class="col-sm-10">
+                  <input v-model="course.enroll" class="form-control" placeholder="报名数">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">顺序</label>
                 <div class="col-sm-10">
-                  <input v-model="section.sort" class="form-control" placeholder="顺序">
+                  <input v-model="course.sort" class="form-control" placeholder="顺序">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">创建时间</label>
                 <div class="col-sm-10">
-                  <input v-model="section.createdAt" class="form-control" placeholder="创建时间">
+                  <input v-model="course.createdAt" class="form-control" placeholder="创建时间">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">修改时间</label>
                 <div class="col-sm-10">
-                  <input v-model="section.updatedAt" class="form-control" placeholder="修改时间">
+                  <input v-model="course.updatedAt" class="form-control" placeholder="修改时间">
                 </div>
               </div>
             </form>
@@ -136,7 +166,7 @@
         </div>
       </div>
     </div><!-- Modal End -->
-
+  
   </div>
 </template>
 
@@ -145,12 +175,14 @@
   import Pagination from "@/components/pagination";
 
   export default {
-    name: "business-section",
+    name: "business-course",
     data: function () {
       return {
-        section: {},
-        sections: [],
-        SECTION_CHARGE: SECTION_CHARGE
+        course: {},
+        courses: [],
+        COURSE_STATUS: COURSE_STATUS,
+        COURSE_CHARGE: COURSE_CHARGE,
+        COURSE_LEVEL: COURSE_LEVEL
       }
     },
     components: {
@@ -164,13 +196,13 @@
     methods: {
       add() {
         let _this = this;
-        _this.section = {};
+        _this.course = {};
         $("#form-modal").modal("show");
       },
 
-      edit(section) {
+      edit(course) {
         let _this = this;
-        _this.section = $.extend({}, section);
+        _this.course = $.extend({}, course);
         $("#form-modal").modal("show");
 
       },
@@ -181,7 +213,7 @@
         // 保存校验 TODO
 
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section)
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save', _this.course)
             .then((response) => {
               Loading.hide();
               let resp = response.data;
@@ -197,9 +229,9 @@
 
       del(id) {
         let _this = this;
-        Confirm.show("删除小节后不可恢复", function () {
+        Confirm.show("删除课程后不可恢复", function () {
           Loading.show();
-          _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id)
+          _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/course/delete/' + id)
               .then((response) => {
                 Loading.hide();
                 let resp = response.data;
@@ -215,12 +247,12 @@
       list(page) {
         let _this = this;
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/list',
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list',
             {page: page, size: _this.$refs.pagination.size})
             .then((response) => {
               Loading.hide();
               let resp = response.data;
-              _this.sections = resp.content.list;
+              _this.courses = resp.content.list;
               _this.$refs.pagination.render(page, resp.content.total);
             })
       },

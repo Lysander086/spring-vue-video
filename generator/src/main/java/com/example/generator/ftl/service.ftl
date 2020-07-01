@@ -1,3 +1,4 @@
+// Generated via service.ftl
 package com.example.server.service;
 
 import com.example.server.domain.${Domain};

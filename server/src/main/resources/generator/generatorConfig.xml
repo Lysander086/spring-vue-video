@@ -2,7 +2,8 @@
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-
+<!-- 可考虑添加注释  -->
+<!--  https://blog.csdn.net/wwd0501/article/details/76618363  -->
 <generatorConfiguration>
     <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
 
@@ -62,8 +63,8 @@
 
 <!--        <table tableName="test" domainObjectName="Test"/>-->
 <!--        <table tableName="chapter" domainObjectName="Chapter"/>-->
-        <table tableName="section" domainObjectName="Section"/>
-<!--        <table tableName="course" domainObjectName="Course"/>-->
+<!--        <table tableName="section" domainObjectName="Section"/>-->
+        <table tableName="course" domainObjectName="Course"/>
 
     </context>
 </generatorConfiguration>

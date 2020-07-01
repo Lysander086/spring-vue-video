@@ -16,7 +16,7 @@
           <a href="index.html" class="navbar-brand">
             <small>
               <i class="fa fa-leaf"></i>
-              Ace Admin
+              EVideo Console
             </small>
           </a>
         </div>
@@ -410,6 +410,13 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
+              <li class="active" id="business-course-sidebar">
+                <router-link to="/business/course">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  课程管理
+                </router-link>
+                <b class="arrow"></b>
+              </li>
               <li class="active" id="business-chapter-sidebar">
                 <router-link to="/business/chapter">
                   <i class="menu-icon fa fa-caret-right"></i>
@@ -417,7 +424,6 @@
                 </router-link>
                 <b class="arrow"></b>
               </li>
-              
               <li class="active" id="business-section-sidebar">
                 <router-link to="/business/section">
                   <i class="menu-icon fa fa-caret-right"></i>
@@ -428,9 +434,7 @@
 
             </ul>
             <b class="arrow"></b>
-
           </li>
-
         </ul><!-- /.nav-list -->
 
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

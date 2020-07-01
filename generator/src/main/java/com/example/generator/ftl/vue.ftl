@@ -1,3 +1,4 @@
+<!-- Generated via vue.ftl by VueGenerator -->
 <template>
   <div>
     <p>
@@ -15,8 +16,10 @@
     <!-- PAGE table BEGINS -->
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
-      <tr> <#list fieldList as field>
-        <th>${field.nameCn}</th></#list>
+      <tr>
+        <#list fieldList as field><#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
+        <th>${field.nameCn}</th></#if>
+        </#list>
         <th>操作</th>
       </tr>
       </thead>
@@ -24,19 +27,24 @@
       <tbody>
       <tr v-for="${domain} in ${domain}s">
         <#list fieldList as field>
+          <#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
+            <#if field.enums>
+        <td>{{${field.enumsConst} | optionKV(${domain}.${field.nameHump})}}</td>
+            <#else>
         <td>{{${domain}.${field.nameHump}}}</td>
+            </#if>
+          </#if>
         </#list>
-      <td>
-        <!--      <div class="hidden-sm hidden-xs btn-group">-->
-        <div class="btn-group">
-          <button @click="edit(${domain})" class="btn btn-xs btn-info">
-            <i class="ace-icon fa fa-pencil bigger-120"></i>
-          </button>
-          <button @click="del(${domain}.id)" class="btn btn-xs btn-danger">
-            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-          </button>
-        </div>
-      </td>
+        <td>
+          <div class="hidden-sm hidden-xs btn-group">
+            <button v-on:click="edit(${domain})" class="btn btn-xs btn-info">
+              <i class="ace-icon fa fa-pencil bigger-120"></i>
+            </button>
+            <button v-on:click="del(${domain}.id)" class="btn btn-xs btn-danger">
+              <i class="ace-icon fa fa-trash-o bigger-120"></i>
+            </button>
+          </div>
+        </td>
       </tr>
       </tbody>
 
@@ -80,12 +88,12 @@
   import Pagination from "@/components/pagination";
 
   export default {
-    name: "${domain}",
+    name: "${module}-${domain}",
     data: function () {
       return {
-      ${domain}:{},
-      ${domain}s: []
-    }
+        ${domain}:{},
+        ${domain}s: []
+      }
     },
     components: {
       Pagination
