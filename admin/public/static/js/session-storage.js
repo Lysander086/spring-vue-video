@@ -8,6 +8,7 @@ SessionStorage = {
         if (v && typeof(v) !== "undefined" && v !== "undefined") {
             return JSON.parse(v);
         }
+        return {};
     },
     set: function (key, data) {
         sessionStorage.setItem(key, JSON.stringify(data));

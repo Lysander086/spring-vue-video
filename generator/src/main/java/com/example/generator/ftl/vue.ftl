@@ -2,15 +2,14 @@
 <template>
   <div>
     <p>
-      <button @click="add()" class="btn btn-white btn-default btn-round">
+      <button @click="add()" class="btn btn-white btn-sm btn-round">
         <i class="ace-icon fa fa-edit"></i>
         新增
-      </button>
-      &nbsp;
-      <button @click="list(1)" class="btn btn-white btn-default btn-round">
+      </button>&nbsp;
+      <button @click="list(1)" class="btn btn-white btn-sm btn-round">
         <i class="ace-icon fa fa-refresh"></i>
         刷新
-      </button>
+      </button>&nbsp;
     </p>
     <pagination ref="pagination" v-bind:list="list"></pagination>
     <!-- PAGE table BEGINS -->
@@ -146,7 +145,7 @@
         ) {
           return;
         }
-        
+
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/${module}/admin/${domain}/save', _this.${domain})
             .then((response) => {

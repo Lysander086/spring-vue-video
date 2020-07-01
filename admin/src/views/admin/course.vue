@@ -5,12 +5,11 @@
       <button @click="add()" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-edit"></i>
         新增
-      </button>
-      &nbsp;
+      </button>&nbsp;
       <button @click="list(1)" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-refresh"></i>
         刷新
-      </button>
+      </button>&nbsp;
     </p>
     <pagination ref="pagination" v-bind:list="list"></pagination>
     
@@ -172,20 +171,19 @@
       _this.list(1);
     },
     methods: {
-   
       add() {
         let _this = this;
         _this.course = {};
         $("#form-modal").modal("show");
       },
-
-      /**
-       * 点击大章
-       */
-      toChapter(){
-
+      
+      // 点击 [ 大章 ]
+      toChapter(course){
+        let _this = this;
+        SessionStorage.set("course", course);
+        _this.$router.push("/business/chapter");
       },
-
+      
       edit(course) {
         let _this = this;
         _this.course = $.extend({}, course);
@@ -196,7 +194,15 @@
       save(page) {
         let _this = this;
 
-        // 保存校验 TODO
+        // 保存校验
+        if (1 != 1
+            || !Validator.require(_this.course.name, "名称")
+            || !Validator.length(_this.course.name, "名称", 1, 50)
+            || !Validator.length(_this.course.summary, "概述", 1, 2000)
+            || !Validator.length(_this.course.image, "封面", 1, 100)
+        ) {
+          return;
+        }
 
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save', _this.course)

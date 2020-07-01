@@ -1,12 +1,16 @@
 <template>
   <div>
+    <h5>{{course.name}}</h5>
     <p>
-      <button @click="add()" class="btn btn-white btn-default btn-round">
+      <router-link to="/business/course" class="btn btn-white btn-sm btn-round">
+        <i class="ace-icon fa fa-arrow-left"></i>
+        返回课程
+      </router-link>&nbsp;
+      <button @click="add()" class="btn btn-white btn-sm btn-round">
         <i class="ace-icon fa fa-edit"></i>
         新增
-      </button>
-      &nbsp;
-      <button @click="list(1)" class="btn btn-white btn-default btn-round">
+      </button>&nbsp;
+      <button @click="list(1)" class="btn btn-white btn-sm btn-round">
         <i class="ace-icon fa fa-refresh"></i>
         刷新
       </button>
@@ -91,7 +95,8 @@
     data: function () {
       return {
         chapter: {},
-        chapters: []
+        chapters: [],
+        course: {},
       }
     },
     components: {
@@ -100,6 +105,11 @@
     mounted() {
       let _this = this;
       _this.$refs.pagination.size = 5;
+      let course = SessionStorage.get("course");
+      if(Tool.isEmpty(course)){
+        _this.$router.push("/welcome");
+      }
+      _this.course = course;
       _this.list(1);
     },
     methods: {
