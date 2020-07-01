@@ -2,14 +2,14 @@ package com.example.server.service;
 
 import com.example.server.domain.Section;
 import com.example.server.domain.SectionExample;
-import com.example.server.dto.SectionDto;
 import com.example.server.dto.PageDto;
+import com.example.server.dto.SectionDto;
+import com.example.server.enums.SectionChargeEnum;
 import com.example.server.mapper.SectionMapper;
 import com.example.server.util.CopyUtil;
 import com.example.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -49,6 +49,7 @@ public class SectionService {
 
     private void insert(Section section) {
         section.setId(UuidUtil.getShortUuid());
+        section.setCharge(SectionChargeEnum.CHARGE.getCode());
         sectionMapper.insert(section);
     }
 

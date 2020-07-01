@@ -16,17 +16,15 @@
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
-        <th>id</th>
-        <th>标题</th>
-        <th>课程</th>
-        <th>大章</th>
-        <th>视频</th>
-        <th>时长</th>
-        <th>收费</th>
-        <th>顺序</th>
-        <th>创建时间</th>
-        <th>修改时间</th>
-      <th>操作</th>
+            <th>id</th>
+            <th>标题</th>
+            <th>课程</th>
+            <th>大章</th>
+            <th>视频</th>
+            <th>时长</th>
+            <th>收费</th>
+            <th>顺序</th>
+        <th>操作</th>
       </tr>
       </thead>
 
@@ -38,10 +36,8 @@
         <td>{{section.chapterId}}</td>
         <td>{{section.video}}</td>
         <td>{{section.time}}</td>
-        <td>{{section.charge}}</td>
+        <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
         <td>{{section.sort}}</td>
-        <td>{{section.createdAt}}</td>
-        <td>{{section.updatedAt}}</td>
       <td>
         <!--      <div class="hidden-sm hidden-xs btn-group">-->
         <div class="btn-group">
@@ -109,7 +105,9 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">收费</label>
                 <div class="col-sm-10">
-                  <input v-model="section.charge" class="form-control" placeholder="收费">
+                  <select v-model="section.charge" class="form-control">
+                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{o.value}}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
@@ -151,9 +149,10 @@
     name: "section",
     data: function () {
       return {
-      section:{},
-      sections: []
-    }
+        section: {},
+        sections: [],
+        SECTION_CHARGE: SECTION_CHARGE
+      }
     },
     components: {
       Pagination
