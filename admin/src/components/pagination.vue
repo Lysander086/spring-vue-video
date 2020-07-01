@@ -1,43 +1,42 @@
 <template>
-  <div class="pagination" role="group" aria-label="分页">
-    <button type="button" class="btn btn-default btn-white btn-round"
+  <div class="pagination small" role="group" aria-label="分页">
+    <button type="button" class="btn btn-sm btn-white btn-round "
             v-bind:disabled="page === 1"
             v-on:click="selectPage(1)">
       1
     </button>
-    <button type="button" class="btn btn-default btn-white btn-round"
+    <button type="button" class="btn btn-sm btn-white btn-round "
             v-bind:disabled="page === 1"
             v-on:click="selectPage(page - 1)">
       上一页
     </button>
     <button v-for="p in pages" v-bind:id="'page-' + p"
-            type="button" class="btn btn-default btn-white btn-round"
+            type="button" class="btn btn-sm btn-white btn-round "
             v-bind:class="{'btn-primary active':page == p}"
             v-on:click="selectPage(p)">
       {{p}}
     </button>
-    <button type="button" class="btn btn-default btn-white btn-round"
+    <button type="button" class="btn btn-sm btn-white btn-round "
             v-bind:disabled="page === pageTotal"
             v-on:click="selectPage(page + 1)">
       下一页
     </button>
-    <button type="button" class="btn btn-default btn-white btn-round"
+    <button type="button" class="btn btn-sm btn-white btn-round "
             v-bind:disabled="page === pageTotal"
             v-on:click="selectPage(pageTotal)">
       {{pageTotal||1}}
     </button>
     &nbsp;
-    <span class="m--padding-10">
+    <span class="m--padding-40 bigger-10">
         每页
-        <select v-model="size">
-            <option value="1">1</option>
+        <select v-model="size" class="smaller-210">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="50">50</option>
             <option value="100">100</option>
         </select>
-        条，共【{{total}}】条
+        条，共 {{total}} 条
     </span>
   </div>
 </template>

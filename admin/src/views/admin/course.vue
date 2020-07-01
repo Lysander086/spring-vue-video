@@ -44,7 +44,9 @@
               <span class="badge badge-info">时长: {{course.time | formatSecond}}</span>&nbsp;
             </p>
             <p>
-              <button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
+              <button v-on:click="toChapter(course)" class="btn btn-white btn-xs btn-info btn-round">
+                大章
+              </button>&nbsp;<button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
                 编辑
               </button>&nbsp;
               <button v-on:click="del(course.id)" class="btn btn-white btn-xs btn-warning btn-round">
@@ -170,10 +172,18 @@
       _this.list(1);
     },
     methods: {
+   
       add() {
         let _this = this;
         _this.course = {};
         $("#form-modal").modal("show");
+      },
+
+      /**
+       * 点击大章
+       */
+      toChapter(){
+
       },
 
       edit(course) {
