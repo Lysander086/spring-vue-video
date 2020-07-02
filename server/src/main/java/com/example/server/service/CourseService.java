@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,11 +55,18 @@ public class CourseService {
     }
 
     private void insert(Course course) {
+        Date now = new Date();
+        course.setCreatedAt(now);
+        course.setUpdatedAt(now);
         course.setId(UuidUtil.getShortUuid());
         courseMapper.insert(course);
     }
 
+    /**
+     * 更新
+     */
     private void update(Course course) {
+        course.setUpdatedAt(new Date());
         courseMapper.updateByPrimaryKey(course);
     }
 
@@ -67,12 +75,11 @@ public class CourseService {
     }
 
     /**
-     * 更新课程时长
+     * 更新时长
      * @param courseId
      * @return
      */
     public void updateTime(String courseId) {
-        log.info("更新课程时长：{}", courseId);
         myCourseMapper.updateTime(courseId);
     }
 }

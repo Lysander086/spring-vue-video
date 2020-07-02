@@ -62,4 +62,8 @@ public class CourseDto {
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updatedAt;
+    /**
+     * 讲师|teacher.id
+     */
+    private String teacherId;
 }
