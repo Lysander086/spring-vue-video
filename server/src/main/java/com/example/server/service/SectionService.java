@@ -2,8 +2,8 @@ package com.example.server.service;
 
 import com.example.server.domain.Section;
 import com.example.server.domain.SectionExample;
-import com.example.server.dto.PageDto;
 import com.example.server.dto.SectionDto;
+import com.example.server.dto.SectionPageDto;
 import com.example.server.enums.SectionChargeEnum;
 import com.example.server.mapper.SectionMapper;
 import com.example.server.util.CopyUtil;
@@ -23,19 +23,28 @@ public class SectionService {
     @Resource
     private SectionMapper sectionMapper;
 
-    public void list(PageDto pageDto) {
-        PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
-        SectionExample example = new SectionExample();
-        List<Section> sectionList = sectionMapper.selectByExample(example);
+    @Resource
+    private CourseService courseService;
+
+    public void list(SectionPageDto sectionPageDto) {
+        PageHelper.startPage(sectionPageDto.getPage(), sectionPageDto.getSize());
+        SectionExample sectionExample = new SectionExample();
+        SectionExample.Criteria criteria = sectionExample.createCriteria();
+        if (!StringUtils.isEmpty(sectionPageDto.getCourseId())) {
+            criteria.andCourseIdEqualTo(sectionPageDto.getCourseId());
+        }
+        if (!StringUtils.isEmpty(sectionPageDto.getChapterId())) {
+            criteria.andChapterIdEqualTo(sectionPageDto.getChapterId());
+        }
+        List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
         PageInfo<Section> pageInfo = new PageInfo<>(sectionList);
-        pageDto.setTotal(pageInfo.getTotal());
+        sectionPageDto.setTotal(pageInfo.getTotal());
         List<SectionDto> sectionDtoList = new ArrayList<>();
-        for (int i = 0, l = sectionList.size(); i < l; i++) {
-            Section section = sectionList.get(i);
+        for (Section section : sectionList) {
             SectionDto sectionDto = CopyUtil.copy(section, SectionDto.class);
             sectionDtoList.add(sectionDto);
         }
-        pageDto.setList(sectionDtoList);
+        sectionPageDto.setList(sectionDtoList);
     }
 
     public void save(SectionDto sectionDto) {
@@ -45,6 +54,7 @@ public class SectionService {
         } else {
             this.update(section);
         }
+        courseService.updateTime(sectionDto.getCourseId());
     }
 
     private void insert(Section section) {

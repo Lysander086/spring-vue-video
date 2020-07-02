@@ -4,13 +4,12 @@ package com.example.server.service;
 import com.example.server.domain.Chapter;
 import com.example.server.domain.ChapterExample;
 import com.example.server.dto.ChapterDto;
-import com.example.server.dto.PageDto;
+import com.example.server.dto.ChapterPageDto;
 import com.example.server.mapper.ChapterMapper;
 import com.example.server.util.CopyUtil;
 import com.example.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,19 +23,24 @@ public class ChapterService {
     @Resource
     private ChapterMapper chapterMapper;
 
-    public void list(PageDto pageDto) {
-        PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
+    public void list(ChapterPageDto chapterPageDto) {
+        PageHelper.startPage(chapterPageDto.getPage(), chapterPageDto.getSize());
         ChapterExample example = new ChapterExample();
+
+        ChapterExample.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(chapterPageDto.getCourseId())) {
+            criteria.andCourseIdEqualTo(chapterPageDto.getCourseId());
+        }
         List<Chapter> chapterList = chapterMapper.selectByExample(example);
         PageInfo<Chapter> pageInfo = new PageInfo<>(chapterList);
-        pageDto.setTotal(pageInfo.getTotal());
+        chapterPageDto.setTotal(pageInfo.getTotal());
         List<ChapterDto> chapterDtoList = new ArrayList<>();
         for (int i = 0, l = chapterList.size(); i < l; i++) {
             Chapter chapter = chapterList.get(i);
             ChapterDto chapterDto = CopyUtil.copy(chapter, ChapterDto.class);
             chapterDtoList.add(chapterDto);
         }
-        pageDto.setList(chapterDtoList);
+        chapterPageDto.setList(chapterDtoList);
     }
 
     public void save(ChapterDto chapterDto) {

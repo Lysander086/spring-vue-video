@@ -1,8 +1,8 @@
 package com.example.business.controller.admin;
 
-import com.example.server.dto.SectionDto;
-import com.example.server.dto.PageDto;
 import com.example.server.dto.ResponseDto;
+import com.example.server.dto.SectionDto;
+import com.example.server.dto.SectionPageDto;
 import com.example.server.service.SectionService;
 import com.example.server.util.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +18,12 @@ public class SectionController {
     private static final String BUSINESS_NAME = "小节";
 
     @PostMapping("/list")
-    public ResponseDto list(@RequestBody PageDto pageDto) {
-        sectionService.list(pageDto);
+    public ResponseDto list(@RequestBody SectionPageDto sectionPageDto) {
+        ValidatorUtil.require(sectionPageDto.getCourseId(), "课程ID");
+        ValidatorUtil.require(sectionPageDto.getChapterId(), "大章ID");
+        sectionService.list(sectionPageDto);
         ResponseDto responseDto = new ResponseDto();
-        responseDto.setContent(pageDto);
+        responseDto.setContent(sectionPageDto);
         return responseDto;
     }
 

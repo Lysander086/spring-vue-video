@@ -26,13 +26,12 @@ public class ${Domain}Service {
 
     public void list(PageDto pageDto) {
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
-        ${Domain}Example example = new ${Domain}Example();
-        List<${Domain}> ${domain}List = ${domain}Mapper.selectByExample(example);
+        ${Domain}Example ${domain}Example = new ${Domain}Example();
+        List<${Domain}> ${domain}List = ${domain}Mapper.selectByExample(${domain}Example);
         PageInfo<${Domain}> pageInfo = new PageInfo<>(${domain}List);
         pageDto.setTotal(pageInfo.getTotal());
         List<${Domain}Dto> ${domain}DtoList = new ArrayList<>();
-        for (int i = 0, l = ${domain}List.size(); i < l; i++) {
-            ${Domain} ${domain} = ${domain}List.get(i);
+        for (${Domain} ${domain} : ${domain}List) {
             ${Domain}Dto ${domain}Dto = CopyUtil.copy(${domain}, ${Domain}Dto.class);
             ${domain}DtoList.add(${domain}Dto);
         }

@@ -1,7 +1,7 @@
 package com.example.business.controller.admin;
 
 import com.example.server.dto.ChapterDto;
-import com.example.server.dto.PageDto;
+import com.example.server.dto.ChapterPageDto;
 import com.example.server.dto.ResponseDto;
 import com.example.server.service.ChapterService;
 import com.example.server.util.ValidatorUtil;
@@ -19,10 +19,11 @@ public class ChapterController {
     private static final String BUSINESS_NAME = "大章";
 
     @PostMapping("/list")
-    public ResponseDto list(@RequestBody PageDto pageDto) {
-        chapterService.list(pageDto);
+    public ResponseDto list(@RequestBody ChapterPageDto chapterPageDto) {
+        ValidatorUtil.require(chapterPageDto.getCourseId() , "课程ID");
+        chapterService.list(chapterPageDto);
         ResponseDto responseDto = new ResponseDto();
-        responseDto.setContent(pageDto);
+        responseDto.setContent(chapterPageDto);
         return responseDto;
     }
 
