@@ -16,8 +16,8 @@
     <div class="row">
       <div v-for="course in courses" class="col-sm-2">
         <div class="thumbnail search-thumbnail">
-          <img v-show="!course.image" class="media-object" src="/static/image/demo-course.jpg" />
-          <img v-show="course.image" class="media-object" v-bind:src="course.image" />
+          <img v-show="!course.image" class="media-object" src="/static/image/demo-course.jpg"/>
+          <img v-show="course.image" class="media-object" v-bind:src="course.image"/>
           <div class="caption">
             <div class="clearfix">
               <span class="pull-right label label-holder info-label">
@@ -30,7 +30,7 @@
                 {{COURSE_STATUS | optionKV(course.status)}}
               </span>
             </div>
-    
+            
             <h3 class="search-title">
               <a href="#" class="blue">{{course.name}}</a>
             </h3>
@@ -46,8 +46,8 @@
               <button v-on:click="toChapter(course)" class="btn btn-white btn-xs btn-info btn-round">
                 大章
               </button>&nbsp;<button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
-                编辑
-              </button>&nbsp;
+              编辑
+            </button>&nbsp;
               <button v-on:click="del(course.id)" class="btn btn-white btn-xs btn-warning btn-round">
                 删除
               </button>
@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-
+    
     <!-- Modal -->
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -64,10 +64,18 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">表单: 添加课程</h4>
+            <h4 class="modal-title" id="myModalLabel">表单</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">
+                  分类
+                </label>
+                <div class="col-sm-10">
+                  <ul id="tree" class="ztree"></ul>
+                </div>
+              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">名称</label>
                 <div class="col-sm-10">
@@ -143,7 +151,7 @@
         </div>
       </div>
     </div><!-- Modal End -->
-
+  
   </div>
 </template>
 
@@ -160,6 +168,7 @@
         COURSE_LEVEL: COURSE_LEVEL,
         COURSE_CHARGE: COURSE_CHARGE,
         COURSE_STATUS: COURSE_STATUS,
+        categories: [],
       }
     },
     components: {
@@ -168,6 +177,7 @@
     mounted() {
       let _this = this;
       _this.$refs.pagination.size = 5;
+      _this.allCategory();
       _this.list(1);
     },
     methods: {
@@ -176,14 +186,45 @@
         _this.course = {};
         $("#form-modal").modal("show");
       },
-      
+
       // 点击 [ 大章 ]
-      toChapter(course){
+      toChapter(course) {
         let _this = this;
         SessionStorage.set("course", course);
         _this.$router.push("/business/chapter");
       },
-      
+
+      allCategory() {
+        let _this = this;
+        Loading.show();
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/category/all')
+            .then((response) => {
+              Loading.hide();
+              let resp = response.data;
+              _this.categories = resp.content;
+              _this.initTree(_this.categories);
+            })
+      },
+
+      initTree() {
+        let _this = this;
+        let setting = {
+          check: {
+            enable: true
+          },
+          data: {
+            simpleData: {
+              idKey: "id",
+              pIdKey: "parent",
+              rootPId: "00000000",
+              enable: true
+            }
+          }
+        };
+        let zNodes = _this.categories;
+        $.fn.zTree.init($("#tree"), setting, zNodes);
+      },
+
       edit(course) {
         let _this = this;
         _this.course = $.extend({}, course);
@@ -253,7 +294,7 @@
 </script>
 
 <style scoped>
-.caption h3{
-  font-size: 20px;
-}
+  .caption h3 {
+    font-size: 20px;
+  }
 </style>
