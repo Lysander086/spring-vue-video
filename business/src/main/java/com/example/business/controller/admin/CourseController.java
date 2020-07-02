@@ -1,14 +1,17 @@
 // Generated via controller.ftl
 package com.example.business.controller.admin;
 
+import com.example.server.dto.CourseCategoryDto;
 import com.example.server.dto.CourseDto;
 import com.example.server.dto.PageDto;
 import com.example.server.dto.ResponseDto;
+import com.example.server.service.CourseCategoryService;
 import com.example.server.service.CourseService;
 import com.example.server.util.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/course")
@@ -16,6 +19,10 @@ public class CourseController {
 
     @Resource
     private CourseService courseService;
+
+    @Resource
+    private CourseCategoryService courseCategoryService;
+
     private static final String BUSINESS_NAME = "课程";
 
     @PostMapping("/list")
@@ -44,6 +51,18 @@ public class CourseController {
     public ResponseDto delete(@PathVariable String id) {
         ResponseDto responseDto = new ResponseDto();
         courseService.delete(id);
+        return responseDto;
+    }
+
+    /**
+     * 查找课程下所有分类
+     * @param courseId
+     */
+    @PostMapping("/list-category/{courseId}")
+    public ResponseDto listCategory(@PathVariable(value = "courseId") String courseId) {
+        ResponseDto responseDto = new ResponseDto();
+        List<CourseCategoryDto> dtoList = courseCategoryService.listByCourse(courseId);
+        responseDto.setContent(dtoList);
         return responseDto;
     }
 

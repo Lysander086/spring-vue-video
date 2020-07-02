@@ -71,14 +71,24 @@ public class CourseCategoryService {
         CourseCategoryExample example = new CourseCategoryExample();
         example.createCriteria().andCourseIdEqualTo(courseId);
         courseCategoryMapper.deleteByExample(example);
-        for (int i = 0, l = dtoList.size(); i < l; i++) {
-            CategoryDto categoryDto = dtoList.get(i);
+        for (CategoryDto categoryDto : dtoList) {
             CourseCategory courseCategory = new CourseCategory();
             courseCategory.setId(UuidUtil.getShortUuid());
             courseCategory.setCourseId(courseId);
             courseCategory.setCategoryId(categoryDto.getId());
             insert(courseCategory);
         }
+    }
+
+    /**
+     * 查找课程下所有分类
+     * @param courseId
+     */
+    public List<CourseCategoryDto> listByCourse(String courseId) {
+        CourseCategoryExample example = new CourseCategoryExample();
+        example.createCriteria().andCourseIdEqualTo(courseId);
+        List<CourseCategory> courseCategoryList = courseCategoryMapper.selectByExample(example);
+        return CopyUtil.copyList(courseCategoryList, CourseCategoryDto.class);
     }
 
 }

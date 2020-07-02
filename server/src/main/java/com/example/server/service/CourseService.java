@@ -13,6 +13,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -48,6 +49,7 @@ public class CourseService {
         pageDto.setList(courseDtoList);
     }
 
+    @Transactional
     public void save(CourseDto courseDto) {
         Course course = CopyUtil.copy(courseDto, Course.class);
         if (StringUtils.isEmpty(courseDto.getId())) {
