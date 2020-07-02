@@ -99,12 +99,6 @@
           <div class="modal-body">
             <form class="form-horizontal">
               <div class="form-group">
-                <label class="col-sm-2 control-label">id</label>
-                <div class="col-sm-10">
-                  <input v-model="category.id" class="form-control" placeholder="id">
-                </div>
-              </div>
-              <div class="form-group">
                 <label class="col-sm-2 control-label">父分类</label>
                 <div class="col-sm-10">
                   <p class="form-control-static">{{active.name || "无"}}</p>
@@ -168,7 +162,7 @@
       add2() {
         let _this = this;
         if(Tool.isEmpty((_this.active))){
-          Toast.warning("请点击一级分类"); return;
+          Toast.warning("请先选择左侧的一级分类"); return;
         }
         _this.category = {
           parent: _this.active.id
@@ -252,6 +246,10 @@
                   }
                 }
               }
+              _this.level2 = [];
+              setTimeout(function () {
+                $("tr.active").trigger("click");
+              }, 100)
             })
       },
       onClickLevel1(category) {
