@@ -12,7 +12,7 @@
         <property name="endingDelimiter" value="`"/>
 
         <!--覆盖生成XML文件-->
-        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
         <!--  使用带有lombok的生成器  -->
         <plugin type="com.softwareloop.mybatis.generator.plugins.LombokPlugin">
 
@@ -32,7 +32,6 @@
         </plugin>
 
 
-
         <!-- 不生成注释 -->
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
@@ -44,7 +43,6 @@
                         userId="root"
                         password="nroot">
         </jdbcConnection>
-
 
 
         <!-- domain类的位置 -->
@@ -61,11 +59,12 @@
                              type="XMLMAPPER"/>
 
 
-<!--        <table tableName="test" domainObjectName="Test"/>-->
-<!--        <table tableName="chapter" domainObjectName="Chapter"/>-->
-<!--        <table tableName="section" domainObjectName="Section"/>-->
-<!--        <table tableName="course" domainObjectName="Course"/>-->
-<!--        <table tableName="category" domainObjectName="Category"/>-->
-        <table tableName="course_category" domainObjectName="CourseCategory"/>
+        <!--        <table tableName="test" domainObjectName="Test"/>-->
+        <!--        <table tableName="chapter" domainObjectName="Chapter"/>-->
+        <!--        <table tableName="section" domainObjectName="Section"/>-->
+        <!--        <table tableName="course" domainObjectName="Course"/>-->
+        <!--        <table tableName="category" domainObjectName="Category"/>-->
+        <!--        <table tableName="course_category" domainObjectName="CourseCategory"/>-->
+        <table tableName="course_content" domainObjectName="CourseContent"/>
     </context>
 </generatorConfiguration>
