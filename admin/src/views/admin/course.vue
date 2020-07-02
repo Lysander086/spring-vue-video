@@ -168,7 +168,8 @@
         COURSE_LEVEL: COURSE_LEVEL,
         COURSE_CHARGE: COURSE_CHARGE,
         COURSE_STATUS: COURSE_STATUS,
-        categories: [],
+        categorys: [],
+        tree: {},
       }
     },
     components: {
@@ -201,8 +202,8 @@
             .then((response) => {
               Loading.hide();
               let resp = response.data;
-              _this.categories = resp.content;
-              _this.initTree(_this.categories);
+              _this.categorys = resp.content;
+              _this.initTree(_this.categorys);
             })
       },
 
@@ -221,20 +222,18 @@
             }
           }
         };
-        let zNodes = _this.categories;
-        $.fn.zTree.init($("#tree"), setting, zNodes);
+        let zNodes = _this.categorys;
+        _this.tree = $.fn.zTree.init($("#tree"), setting, zNodes);
       },
 
       edit(course) {
         let _this = this;
         _this.course = $.extend({}, course);
         $("#form-modal").modal("show");
-
       },
 
-      save(page) {
+      save() {
         let _this = this;
-
         // 保存校验
         if (1 != 1
             || !Validator.require(_this.course.name, "名称")
@@ -244,7 +243,13 @@
         ) {
           return;
         }
-
+        let categorys = _this.tree.getCheckedNodes();
+        if(Tool.isEmpty(categorys)){
+          Toast.warning("请选择分类~");
+          return;
+        }
+        // 新增课程时, 查看categorys
+        _this.course.categorys = categorys;
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save', _this.course)
             .then((response) => {

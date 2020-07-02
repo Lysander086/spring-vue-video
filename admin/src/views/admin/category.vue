@@ -136,7 +136,7 @@
     data: function () {
       return {
         category: {},
-        categories: [],
+        categorys: [],
         level1: [],
         level2: [],
         active: {},
@@ -228,16 +228,16 @@
             .then((response) => {
               Loading.hide();
               let resp = response.data;
-              _this.categories = resp.content;
+              _this.categorys = resp.content;
 
               // 将所有记录格式化成树形结构
               _this.level1 = [];
-              for (let i = 0; i < _this.categories.length; i++) {
-                let c = _this.categories[i];
+              for (let i = 0; i < _this.categorys.length; i++) {
+                let c = _this.categorys[i];
                 if (c.parent === '00000000') {
                   _this.level1.push(c);
-                  for (let j = 0; j < _this.categories.length; j++) {
-                    let child = _this.categories[j];
+                  for (let j = 0; j < _this.categorys.length; j++) {
+                    let child = _this.categorys[j];
                     if (child.parent === c.id) {
                       if (Tool.isEmpty(c.children))
                         c.children = [];
