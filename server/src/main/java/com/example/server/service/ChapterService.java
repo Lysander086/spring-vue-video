@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,12 +33,7 @@ public class ChapterService {
         List<Chapter> chapterList = chapterMapper.selectByExample(example);
         PageInfo<Chapter> pageInfo = new PageInfo<>(chapterList);
         chapterPageDto.setTotal(pageInfo.getTotal());
-        List<ChapterDto> chapterDtoList = new ArrayList<>();
-        for (int i = 0, l = chapterList.size(); i < l; i++) {
-            Chapter chapter = chapterList.get(i);
-            ChapterDto chapterDto = CopyUtil.copy(chapter, ChapterDto.class);
-            chapterDtoList.add(chapterDto);
-        }
+        List<ChapterDto> chapterDtoList = CopyUtil.copyList(chapterList, ChapterDto.class);
         chapterPageDto.setList(chapterDtoList);
     }
 

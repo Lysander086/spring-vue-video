@@ -27,14 +27,15 @@ public class ${Domain}Service {
     public void list(PageDto pageDto) {
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
         ${Domain}Example ${domain}Example = new ${Domain}Example();
+        <#list fieldList as field>
+            <#if field.nameHump=='sort'>
+        ${domain}Example.setOrderByClause("sort asc");
+            </#if>
+        </#list>
         List<${Domain}> ${domain}List = ${domain}Mapper.selectByExample(${domain}Example);
         PageInfo<${Domain}> pageInfo = new PageInfo<>(${domain}List);
         pageDto.setTotal(pageInfo.getTotal());
-        List<${Domain}Dto> ${domain}DtoList = new ArrayList<>();
-        for (${Domain} ${domain} : ${domain}List) {
-            ${Domain}Dto ${domain}Dto = CopyUtil.copy(${domain}, ${Domain}Dto.class);
-            ${domain}DtoList.add(${domain}Dto);
-        }
+        List<${Domain}Dto> ${domain}DtoList = CopyUtil.copyList(${domain}List, ${Domain}Dto.class);
         pageDto.setList(${domain}DtoList);
     }
 

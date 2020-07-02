@@ -1,49 +1,92 @@
 <!-- Generated via vue.ftl by VueGenerator -->
 <template>
   <div>
-    <p>
-      <button @click="add()" class="btn btn-white btn-sm btn-round">
-        <i class="ace-icon fa fa-edit"></i>
-        新增
-      </button>&nbsp;
-      <button @click="list(1)" class="btn btn-white btn-sm btn-round">
-        <i class="ace-icon fa fa-refresh"></i>
-        刷新
-      </button>&nbsp;
-    </p>
-    <pagination ref="pagination" v-bind:list="list"></pagination>
-    <!-- PAGE table BEGINS -->
-    <table id="simple-table" class="table  table-bordered table-hover">
-      <thead>
-      <tr>
-                  <th>id</th>
-          <th>父id</th>
-          <th>名称</th>
-          <th>顺序</th>
-        <th>操作</th>
-      </tr>
-      </thead>
-
-      <tbody>
-      <tr v-for="category in categorys">
-        <td>{{category.id}}</td>
-        <td>{{category.parent}}</td>
-        <td>{{category.name}}</td>
-        <td>{{category.sort}}</td>
-        <td>
-          <div class="hidden-sm hidden-xs btn-group">
-            <button v-on:click="edit(category)" class="btn btn-xs btn-info">
-              <i class="ace-icon fa fa-pencil bigger-120"></i>
-            </button>
-            <button v-on:click="del(category.id)" class="btn btn-xs btn-danger">
-              <i class="ace-icon fa fa-trash-o bigger-120"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-
+    <div class="row">
+      <div class="col-md-6">
+        <h5>一级分类</h5>
+        <p>
+          <button @click="add1()" class="btn btn-white btn-sm btn-round">
+            <i class="ace-icon fa fa-edit"></i>
+            新增一级
+          </button>&nbsp;
+          <button @click="all()" class="btn btn-white btn-sm btn-round">
+            <i class="ace-icon fa fa-refresh"></i>
+            刷新
+          </button>&nbsp;
+        </p>
+        <!-- PAGE table BEGINS -->
+        <table id="level1-table" class="table  table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>名称</th>
+            <th>顺序</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          
+          <tbody>
+          <tr v-for="category in level1" v-on:click="onClickLevel1(category)" v-bind:class="{'active' : category.id === active.id}">
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td>{{category.sort}}</td>
+            <td>
+              <div class="hidden-sm hidden-xs btn-group">
+                <button v-on:click="edit(category)" class="btn btn-xs btn-info">
+                  <i class="ace-icon fa fa-pencil bigger-120"></i>
+                </button>
+                <button v-on:click="del(category.id)" class="btn btn-xs btn-danger">
+                  <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="col-md-6">
+        <h5>二级分类</h5>
+        <p>
+          <button @click="add2()" class="btn btn-white btn-sm btn-round">
+            <i class="ace-icon fa fa-edit"></i>
+            新增二级
+          </button>&nbsp;
+        </p>
+        <!-- PAGE table BEGINS -->
+        <table id="level2-table" class="table  table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>名称</th>
+            <th>顺序</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          
+          <tbody>
+          <tr v-for="category in level2">
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td>{{category.sort}}</td>
+            <td>
+              <div class="hidden-sm hidden-xs btn-group">
+                <button v-on:click="edit(category)" class="btn btn-xs btn-info">
+                  <i class="ace-icon fa fa-pencil bigger-120"></i>
+                </button>
+                <button v-on:click="del(category.id)" class="btn btn-xs btn-danger">
+                  <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    
+    </div>
+    
+    
     <!-- Modal -->
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -62,9 +105,9 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label">父id</label>
+                <label class="col-sm-2 control-label">父分类</label>
                 <div class="col-sm-10">
-                  <input v-model="category.parent" class="form-control" placeholder="父id">
+                  <p class="form-control-static">{{active.name || "无"}}</p>
                 </div>
               </div>
               <div class="form-group">
@@ -88,37 +131,51 @@
         </div>
       </div>
     </div><!-- Modal End -->
-
+  
   </div>
 </template>
 
 
 <script>
-  import Pagination from "@/components/pagination";
-
   export default {
     name: "business-category",
     data: function () {
       return {
         category: {},
-        categorys: [],
+        categories: [],
+        level1: [],
+        level2: [],
+        active: {},
       }
     },
-    components: {
-      Pagination
-    },
+    components: {},
     mounted() {
       let _this = this;
-      _this.$refs.pagination.size = 5;
-      _this.list(1);
+      _this.all();
     },
     methods: {
-      add() {
+      //新增一级
+      add1() {
         let _this = this;
-        _this.category = {};
+        _this.active = {};
+        _this.level2 = [];
+        _this.category = {
+          parent: "00000000"
+        };
         $("#form-modal").modal("show");
       },
-
+      // 新增二级
+      add2() {
+        let _this = this;
+        if(Tool.isEmpty((_this.active))){
+          Toast.warning("请点击一级分类"); return;
+        }
+        _this.category = {
+          parent: _this.active.id
+        };
+        $("#form-modal").modal("show");
+      },
+      
       edit(category) {
         let _this = this;
         _this.category = $.extend({}, category);
@@ -126,7 +183,7 @@
 
       },
 
-      save(page) {
+      save() {
         let _this = this;
 
         // 保存校验
@@ -145,7 +202,7 @@
               let resp = response.data;
               if (resp.success) {
                 $("#form-modal").modal("hide");
-                _this.list(1);
+                _this.all();
                 Toast.success("保存成功");
               } else {
                 Toast.warning(resp.message)
@@ -163,29 +220,52 @@
                 let resp = response.data;
                 if (resp.success) {
                   $('#form-modal').modal("hide");
-                  _this.list(1);
+                  _this.all(1);
                   Toast.success("删除成功")
                 }
               });
         });
       },
 
-      list(page) {
+      all() {
         let _this = this;
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/category/list',
-            {page: page, size: _this.$refs.pagination.size})
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/category/all')
             .then((response) => {
               Loading.hide();
               let resp = response.data;
-              _this.categorys = resp.content.list;
-              _this.$refs.pagination.render(page, resp.content.total);
+              _this.categories = resp.content;
+
+              // 将所有记录格式化成树形结构
+              _this.level1 = [];
+              for (let i = 0; i < _this.categories.length; i++) {
+                let c = _this.categories[i];
+                if (c.parent === '00000000') {
+                  _this.level1.push(c);
+                  for (let j = 0; j < _this.categories.length; j++) {
+                    let child = _this.categories[j];
+                    if (child.parent === c.id) {
+                      if (Tool.isEmpty(c.children))
+                        c.children = [];
+                      c.children.push(child);
+                    }
+                  }
+                }
+              }
             })
+      },
+      onClickLevel1(category) {
+        let _this = this;
+        console.log(category);
+        _this.active = category;
+        _this.level2 = category.children;
       },
     }
   }
 </script>
 
 <style scoped>
-
+  .active td{
+    background-color: rgba(185, 230, 180, 0.2) !important;
+  }
 </style>
