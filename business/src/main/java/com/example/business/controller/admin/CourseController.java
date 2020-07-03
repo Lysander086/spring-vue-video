@@ -1,10 +1,7 @@
 // Generated via controller.ftl
 package com.example.business.controller.admin;
 
-import com.example.server.dto.CourseCategoryDto;
-import com.example.server.dto.CourseDto;
-import com.example.server.dto.PageDto;
-import com.example.server.dto.ResponseDto;
+import com.example.server.dto.*;
 import com.example.server.service.CourseCategoryService;
 import com.example.server.service.CourseService;
 import com.example.server.util.ValidatorUtil;
@@ -46,6 +43,24 @@ public class CourseController {
         responseDto.setContent(courseDto);
         return responseDto;
     }
+
+    @GetMapping("/find-content/{id}")
+    public ResponseDto findContent(@PathVariable String id) {
+        ResponseDto responseDto = new ResponseDto();
+        CourseContentDto contentDto = courseService.findContent(id);
+        responseDto.setContent(contentDto);
+        return responseDto;
+    }
+
+
+
+    @PostMapping("/save-content")
+    public ResponseDto saveContent(@RequestBody CourseContentDto contentDto) {
+        ResponseDto responseDto = new ResponseDto();
+        courseService.saveContent(contentDto);
+        return responseDto;
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseDto delete(@PathVariable String id) {
