@@ -107,9 +107,10 @@ public class LogAspect {
         // 排除字段，敏感字段或太长的字段不显示
         String[] excludeProperties = {"password", "shard"};
         PropertyPreFilters filters = new PropertyPreFilters();
-        PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
-        excludefilter.addExcludes(excludeProperties);
-        LOG.info("返回结果: {}", JSONObject.toJSONString(result, excludefilter));
+        PropertyPreFilters.MySimplePropertyPreFilter excludedFilter = filters.addFilter();
+        excludedFilter.addExcludes(excludeProperties);
+//        LOG.info("返回结果: {}", JSONObject.toJSONString(result, excludedFilter));
+        LOG.info("返回结果成功");
         LOG.info("------------- 结束 耗时：{} ms -------------", System.currentTimeMillis() - startTime);
         return result;
     }
