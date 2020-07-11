@@ -235,6 +235,9 @@ create table `teacher`
 ) engine = innodb
   default charset = utf8mb4 comment ='讲师';
 
+insert into `teacher` (id, name, nickname, image, position, motto, intro) values ('00000001', 'Lysander', 'zede', '', 'earth' , '好好学习', 'full end developer');
+
+
 -- 文件
 drop table if exists `file`;
 create table `file`
