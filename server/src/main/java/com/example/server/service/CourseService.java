@@ -7,6 +7,7 @@ import com.example.server.domain.CourseExample;
 import com.example.server.dto.CourseContentDto;
 import com.example.server.dto.CourseDto;
 import com.example.server.dto.PageDto;
+import com.example.server.dto.SortDto;
 import com.example.server.mapper.CourseContentMapper;
 import com.example.server.mapper.CourseMapper;
 import com.example.server.mapper.my.MyCourseMapper;
@@ -121,4 +122,21 @@ public class CourseService {
         }
         return CopyUtil.copy(content, CourseContentDto.class);
     }
+
+    @Transactional
+    public void sort(SortDto sortDto) {
+        // 修改当前记录的排序值
+        myCourseMapper.updateSort(sortDto);
+
+        // 如果排序值变大
+        if (sortDto.getNewSort() > sortDto.getOldSort()) {
+            myCourseMapper.moveSortsForward(sortDto);
+        }
+
+        // 如果排序值变小
+        if (sortDto.getNewSort() < sortDto.getOldSort()) {
+            myCourseMapper.moveSortsBackward(sortDto);
+        }
+    }
+
 }

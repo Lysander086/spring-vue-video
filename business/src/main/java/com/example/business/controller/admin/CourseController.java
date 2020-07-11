@@ -5,6 +5,8 @@ import com.example.server.dto.*;
 import com.example.server.service.CourseCategoryService;
 import com.example.server.service.CourseService;
 import com.example.server.util.ValidatorUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -13,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/course")
 public class CourseController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
 
     @Resource
     private CourseService courseService;
@@ -78,6 +82,14 @@ public class CourseController {
         ResponseDto responseDto = new ResponseDto();
         List<CourseCategoryDto> dtoList = courseCategoryService.listByCourse(courseId);
         responseDto.setContent(dtoList);
+        return responseDto;
+    }
+
+    @RequestMapping(value = "/sort")
+    public ResponseDto sort(@RequestBody SortDto sortDto) {
+        LOG.info("更新排序");
+        ResponseDto responseDto = new ResponseDto();
+        courseService.sort(sortDto);
         return responseDto;
     }
 

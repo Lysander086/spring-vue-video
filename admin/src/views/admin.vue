@@ -424,20 +424,20 @@
                 </router-link>
                 <b class="arrow"></b>
               </li>
-              <li class="active" id="business-chapter-sidebar">
-                <router-link to="/business/chapter">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  大章管理
-                </router-link>
-                <b class="arrow"></b>
-              </li>
-              <li class="active" id="business-section-sidebar">
-                <router-link to="/business/section">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  小节管理
-                </router-link>
-                <b class="arrow"></b>
-              </li>
+<!--              <li class="active" id="business-chapter-sidebar">-->
+<!--                <router-link to="/business/chapter">-->
+<!--                  <i class="menu-icon fa fa-caret-right"></i>-->
+<!--                  大章管理-->
+<!--                </router-link>-->
+<!--                <b class="arrow"></b>-->
+<!--              </li>-->
+<!--              <li class="active" id="business-section-sidebar">-->
+<!--                <router-link to="/business/section">-->
+<!--                  <i class="menu-icon fa fa-caret-right"></i>-->
+<!--                  小节管理-->
+<!--                </router-link>-->
+<!--                <b class="arrow"></b>-->
+<!--              </li>-->
 
             </ul>
             <b class="arrow"></b>
@@ -529,7 +529,7 @@
       /**
        * 菜单激活样式
        */
-      // 针对二级菜单
+      // 针对二级菜单, 比如课程管理
       activeSidebar(id) {
         $('#' + id).siblings().removeClass("active");
         $('#' + id).siblings().find('li').removeClass('active');

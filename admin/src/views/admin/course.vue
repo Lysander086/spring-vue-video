@@ -49,6 +49,9 @@
               <button v-on:click="editContent(course)" class="btn btn-white btn-xs btn-info btn-round">
                 内容
               </button>&nbsp;
+              <button v-on:click="openSortModal(course)" class="btn btn-white btn-xs btn-info btn-round">
+                排序
+              </button>&nbsp;
               <button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
                 编辑
               </button>&nbsp;
@@ -143,7 +146,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">顺序</label>
                 <div class="col-sm-10">
-                  <input v-model="course.sort" class="form-control" placeholder="顺序">
+                  <input v-model="course.sort" class="form-control" placeholder="顺序" disabled>
                 </div>
               </div>
             </form>
@@ -169,7 +172,7 @@
             <form class="form-horizontal">
               <div class="form-group">
                 <div class="col-lg-12">
-                  最后保存时间：{{saveContentLabel}}
+                  自动保存时间：{{saveContentLabel}}
                 </div>
               </div>
               <div class="form-group">
@@ -186,6 +189,49 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.course content Modal End -->
+    
+    <!--  course-sort-modal Modal  -->
+    <div id="course-sort-modal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">排序</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="control-label col-lg-3">
+                  当前排序
+                </label>
+                <div class="col-lg-9">
+                  <input class="form-control" v-model="sort.oldSort" name="oldSort" disabled>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-lg-3">
+                  新排序
+                </label>
+                <div class="col-lg-9">
+                  <input class="form-control" v-model="sort.newSort" name="newSort">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-white btn-default btn-round" data-dismiss="modal">
+              <i class="ace-icon fa fa-times"></i>
+              取消
+            </button>
+            <button type="button" class="btn btn-white btn-info btn-round" v-on:click="updateSort()">
+              <i class="ace-icon fa fa-plus blue"></i>
+              更新排序
+            </button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.course-sort-modal Modal End -->
   
   </div>
 </template>
@@ -208,7 +254,13 @@
         saveContentLabel: "",
         saveSuccess: false,
         saveContentInterval: null,
-      }
+        sort: {
+          id: "",
+          oldSort: 0,
+          newSort: 0
+        },
+        teachers: [],
+      };
     },
     components: {
       Pagination
@@ -227,7 +279,9 @@
     methods: {
       add() {
         let _this = this;
-        _this.course = {};
+        _this.course = {
+          sort: _this.$refs.pagination.total + 1
+        };
         _this.tree.checkAllNodes(false);
         $("#form-modal").modal("show");
       },
@@ -237,6 +291,36 @@
         _this.course = $.extend({}, course);
         _this.listCategory(course.id);
         $("#form-modal").modal("show");
+      },
+
+      openSortModal(course) {
+        let _this = this;
+        _this.sort = {
+          id: course.id,
+          oldSort: course.sort,
+          newSort: course.sort
+        };
+        $("#course-sort-modal").modal("show");
+      },
+
+      updateSort() {
+        let _this = this;
+        if (_this.sort.newSort === _this.sort.oldSort) {
+          Toast.warning("排序没有变化");
+          return;
+        }
+        Loading.show();
+        _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/course/sort", _this.sort).then((response) => {
+          let resp = response.data;
+
+          if (resp.success) {
+            Toast.success("更新排序成功");
+            $("#course-sort-modal").modal("hide");
+            _this.list(1);
+          } else {
+            Toast.error("更新排序失败");
+          }
+        });
       },
       // 点击 [ 大章 ]
       toChapter(course) {
@@ -277,8 +361,8 @@
               _this.saveContent();
             }, 5000);
             $('#course-content-modal').on('hidden.bs.modal', function (e) {
-              clearInterval(_this.saveContentInterval)
-            })
+              clearInterval(_this.saveContentInterval);
+            });
           } else {
             Toast.warning(resp.message);
           }
@@ -290,7 +374,7 @@
         let _this = this;
         let course = SessionStorage.get(SESSION_KEY_COURSE);
         let content = $('#content').summernote("code");
-        console.log(content)
+        console.log(content);
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save-content',
             {
               id: course.id,
@@ -298,13 +382,13 @@
             })
             .then((response) => {
               Loading.hide();
-              console.log(response)
+              console.log(response);
               let resp = response.data;
               _this.saveSuccess = resp.success;
               console.log(resp);
               if (_this.saveSuccess) {
                 let now = Tool.dateFormat("mm:ss");
-                console.log("now time is ",now)
+                console.log("now time is ", now);
                 _this.saveContentLabel = now;
               } else {
                 Toast.warning(resp.message);
@@ -320,8 +404,8 @@
         _this.saveContent();
         if (_this.saveSuccess) {
           $("#course-content-modal").modal("hide");
-          Toast.success("保存成功")
-        } else Toast.warning("保存失败")
+          Toast.success("保存成功");
+        } else Toast.warning("保存失败");
       },
 
       allCategory() {
@@ -333,7 +417,7 @@
               let resp = response.data;
               _this.categorys = resp.content;
               _this.initTree(_this.categorys);
-            })
+            });
       },
 
       listCategory(courseId) {
@@ -405,9 +489,9 @@
                 _this.list(1);
                 Toast.success("保存成功");
               } else {
-                Toast.warning(resp.message)
+                Toast.warning(resp.message);
               }
-            })
+            });
       },
 
       del(id) {
@@ -421,7 +505,7 @@
                 if (resp.success) {
                   $('#form-modal').modal("hide");
                   _this.list(1);
-                  Toast.success("删除成功")
+                  Toast.success("删除成功");
                 }
               });
         });
@@ -437,10 +521,10 @@
               let resp = response.data;
               _this.courses = resp.content.list;
               _this.$refs.pagination.render(page, resp.content.total);
-            })
+            });
       },
     }
-  }
+  };
 </script>
 
 <style scoped>
