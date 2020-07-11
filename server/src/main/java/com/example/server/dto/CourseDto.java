@@ -70,4 +70,7 @@ public class CourseDto {
      * 讲师|teacher.id
      */
     private String teacherId;
+
+    private TeacherDto teacher;
+
 }

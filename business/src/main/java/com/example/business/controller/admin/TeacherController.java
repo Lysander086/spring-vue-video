@@ -1,14 +1,15 @@
 // Generated via controller.ftl
 package com.example.business.controller.admin;
 
-import com.example.server.dto.TeacherDto;
 import com.example.server.dto.PageDto;
 import com.example.server.dto.ResponseDto;
+import com.example.server.dto.TeacherDto;
 import com.example.server.service.TeacherService;
 import com.example.server.util.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/teacher")
@@ -17,6 +18,14 @@ public class TeacherController {
     @Resource
     private TeacherService teacherService;
     private static final String BUSINESS_NAME = "讲师";
+
+    @PostMapping("/all")
+    public ResponseDto all() {
+        List<TeacherDto> categoryDtoList =  teacherService.all();
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setContent(categoryDtoList);
+        return responseDto;
+    }
 
     @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto) {

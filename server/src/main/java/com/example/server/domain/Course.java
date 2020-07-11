@@ -31,4 +31,6 @@ public class Course {
     private Date createdAt;
 
     private Date updatedAt;
+
+    private String teacherId;
 }

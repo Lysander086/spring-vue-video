@@ -6,7 +6,7 @@
  */
 let optionKV = (object, key) =>  {
     if (!object || !key) {
-        return "";
+        return "空";
     } else {
         let result = "";
         for(let enums in object){

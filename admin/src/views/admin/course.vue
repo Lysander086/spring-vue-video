@@ -34,6 +34,18 @@
             <h3 class="search-title">
               <a href="#" class="blue">{{course.name}}</a>
             </h3>
+            
+            <div v-for="teacher in teachers.filter(t=>{return t.id===course.teacherId})"
+                 class="profile-activity clearfix">
+              <div>
+                <img v-show="!teacher.image" class="pull-left" src="/static/image/讲师头像/头像1.jpg">
+                <img v-show="teacher.image" class="pull-left" v-bind:src="teacher.image">
+                <a class="user" href="#"> {{teacher.name}} </a>
+                <br>
+                {{teacher.position}}
+              </div>
+            </div>
+            
             <p>
               <span class="blue bolder bigger-10">{{course.price}}&nbsp;<i class="fa fa-rmb"></i></span>&nbsp;
             </p>
@@ -87,6 +99,14 @@
                 <label class="col-sm-2 control-label">名称</label>
                 <div class="col-sm-10">
                   <input v-model="course.name" class="form-control" placeholder="名称">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">讲师</label>
+                <div class="col-sm-10">
+                  <select v-model="course.teacherId" class="form-control">
+                    <option v-for="o in teachers" v-bind:value="o.id">{{o.name}}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
@@ -269,6 +289,7 @@
       let _this = this;
       _this.$refs.pagination.size = 5;
       _this.allCategory();
+      _this.allTeacher();
       _this.list(1);
     },
     destroyed() {
@@ -325,7 +346,7 @@
       // 点击 [ 大章 ]
       toChapter(course) {
         let _this = this;
-        SessionStorage.set(SESSION_KEY_COURSE , course);
+        SessionStorage.set(SESSION_KEY_COURSE, course);
         _this.$router.push("/business/chapter");
       },
 
@@ -417,6 +438,17 @@
               let resp = response.data;
               _this.categorys = resp.content;
               _this.initTree(_this.categorys);
+            });
+      },
+
+      allTeacher() {
+        let _this = this;
+        Loading.show();
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/all')
+            .then((response) => {
+              Loading.hide();
+              let resp = response.data;
+              _this.teachers = resp.content;
             });
       },
 
@@ -530,5 +562,11 @@
 <style scoped>
   .caption h3 {
     font-size: 20px;
+  }
+  
+  @media (max-width: 1199px) {
+    .caption h3 {
+      font-size: 16px;
+    }
   }
 </style>

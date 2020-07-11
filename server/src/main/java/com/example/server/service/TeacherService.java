@@ -3,19 +3,17 @@ package com.example.server.service;
 
 import com.example.server.domain.Teacher;
 import com.example.server.domain.TeacherExample;
-import com.example.server.dto.TeacherDto;
 import com.example.server.dto.PageDto;
+import com.example.server.dto.TeacherDto;
 import com.example.server.mapper.TeacherMapper;
 import com.example.server.util.CopyUtil;
 import com.example.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +21,16 @@ public class TeacherService {
 
     @Resource
     private TeacherMapper teacherMapper;
+
+
+
+    public List<TeacherDto> all() {
+        TeacherExample teacherExample = new TeacherExample();
+        List<Teacher> teacherList = teacherMapper.selectByExample(teacherExample);
+        List<TeacherDto> teacherDtoList = CopyUtil.copyList(teacherList, TeacherDto.class);
+        return teacherDtoList;
+    }
+
 
     public void list(PageDto pageDto) {
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
