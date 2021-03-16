@@ -2,7 +2,7 @@ package com.example.generator.test;
 
 public class Test {
     /**
-    * ID
-    */
+     * ID
+     */
     private String id;
 }
